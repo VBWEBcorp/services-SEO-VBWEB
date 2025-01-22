@@ -259,6 +259,7 @@ header .lead {
         padding: 1rem;
         width: 100%;
         max-width: 100%;
+        overflow-x: hidden;
     }
 
     h1 {
@@ -279,6 +280,8 @@ header .lead {
         gap: 1rem;
         margin: 0;
         width: 100%;
+        padding-left: calc(50% - 45vw);
+        padding-right: calc(50% - 45vw);
     }
 
     .row::-webkit-scrollbar {
@@ -286,9 +289,9 @@ header .lead {
     }
 
     .col-md-3, .col-md-4, .col-md-6 {
-        flex: 0 0 90%;
-        width: 90%;
-        min-width: 90%;
+        flex: 0 0 90vw;
+        width: 90vw;
+        min-width: 90vw;
         padding: 0 0.5rem;
         scroll-snap-align: center;
     }
