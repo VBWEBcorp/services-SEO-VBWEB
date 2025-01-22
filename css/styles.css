@@ -23,7 +23,7 @@ header .lead {
 
 /* Cards */
 .card {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: #264060;
     border: 2px solid transparent;
     transition: all 0.3s ease;
     height: 100%;
@@ -36,7 +36,6 @@ header .lead {
 .card:hover, .card:focus, .card.active {
     border-color: #4EBAEC;
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .card-body {
@@ -332,8 +331,6 @@ header .lead {
     .card {
         margin: 0.5rem;
         border-radius: 20px;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
         border: 1px solid rgba(78, 186, 236, 0.2);
     }
 
@@ -368,7 +365,6 @@ header .lead {
     .card.active {
         transform: scale(1.02);
         border-color: #4EBAEC;
-        box-shadow: 0 0 20px rgba(78, 186, 236, 0.2);
     }
 
     /* Réinitialisation des effets par défaut sur mobile */
@@ -415,7 +411,6 @@ header .lead {
         font-size: 2.2rem;
         margin: 1rem 0;
         text-align: center;
-        text-shadow: 0 0 10px rgba(78, 186, 236, 0.3);
         font-family: 'Poppins', sans-serif;
     }
 }
