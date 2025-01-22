@@ -24,7 +24,7 @@ header .lead {
 /* Cards */
 .card {
     background-color: #264060;
-    border: 2px solid transparent;
+    border: 2px solid rgba(78, 186, 236, 0.15);
     transition: all 0.3s ease;
     height: 100%;
     border-radius: 12px;
@@ -370,7 +370,7 @@ header .lead {
     /* Réinitialisation des effets par défaut sur mobile */
     .card {
         transform: none !important;
-        border-color: transparent !important;
+        border-color: rgba(78, 186, 236, 0.15) !important;
     }
 
     /* Application de l'effet uniquement au tap */
