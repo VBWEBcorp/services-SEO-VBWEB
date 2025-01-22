@@ -24,17 +24,18 @@ header .lead {
 /* Cards */
 .card {
     background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    height: 100%;
     border-radius: 12px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;
     animation: cardEntrance 0.6s ease-out;
     animation-fill-mode: both;
 }
 
-.card:hover {
-    transform: translateY(-5px);
+.card:hover, .card:focus, .card.active {
     border-color: #4EBAEC;
+    transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
@@ -368,6 +369,18 @@ header .lead {
         transform: scale(1.02);
         border-color: #4EBAEC;
         box-shadow: 0 0 20px rgba(78, 186, 236, 0.2);
+    }
+
+    /* Réinitialisation des effets par défaut sur mobile */
+    .card {
+        transform: none !important;
+        border-color: transparent !important;
+    }
+
+    /* Application de l'effet uniquement au tap */
+    .card:active {
+        border-color: #4EBAEC !important;
+        transform: translateY(-5px) !important;
     }
 
     /* Style des features pour mobile */
