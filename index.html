@@ -276,31 +276,21 @@
                     let isDown = false;
                     let startX;
                     let scrollLeft;
-                    let velocity = 0;
-                    let rafId = null;
+                    let startY;
+                    let scrollTop;
+                    let initialTouchX;
+                    let initialTouchY;
                     
-                    // Gestion du défilement avec inertie
-                    function momentumScroll() {
-                        if (Math.abs(velocity) > 0.1) {
-                            row.scrollLeft += velocity;
-                            velocity *= 0.95; // Décélération
-                            rafId = requestAnimationFrame(momentumScroll);
-                        }
-                    }
-
                     row.addEventListener('touchstart', (e) => {
                         isDown = true;
-                        row.classList.add('active');
+                        initialTouchX = e.touches[0].clientX;
+                        initialTouchY = e.touches[0].clientY;
                         startX = e.touches[0].pageX - row.offsetLeft;
                         scrollLeft = row.scrollLeft;
-                        cancelAnimationFrame(rafId);
                     });
 
                     row.addEventListener('touchend', () => {
                         isDown = false;
-                        row.classList.remove('active');
-                        
-                        // Snap to closest card
                         const cardWidth = row.querySelector('.card').offsetWidth;
                         const scrollPosition = row.scrollLeft;
                         const targetPosition = Math.round(scrollPosition / cardWidth) * cardWidth;
@@ -313,23 +303,31 @@
 
                     row.addEventListener('touchmove', (e) => {
                         if (!isDown) return;
-                        e.preventDefault();
+                        
+                        const currentX = e.touches[0].clientX;
+                        const currentY = e.touches[0].clientY;
+                        const deltaX = initialTouchX - currentX;
+                        const deltaY = initialTouchY - currentY;
+                        
+                        // Si le mouvement est plus vertical qu'horizontal
+                        if (Math.abs(deltaY) > Math.abs(deltaX)) {
+                            e.stopPropagation(); // Permettre le scroll vertical
+                            return;
+                        }
+                        
+                        e.preventDefault(); // Sinon, gérer le scroll horizontal
                         const x = e.touches[0].pageX - row.offsetLeft;
-                        const walk = (x - startX) * 2;
-                        const prevScroll = row.scrollLeft;
+                        const walk = (x - startX) * 1.5;
                         row.scrollLeft = scrollLeft - walk;
-                        velocity = row.scrollLeft - prevScroll;
                     });
 
                     // Observer pour les cartes
                     const observer = new IntersectionObserver((entries) => {
                         entries.forEach(entry => {
                             if (entry.isIntersecting) {
-                                // Ajouter la classe active à la carte visible
                                 cards.forEach(c => c.classList.remove('active'));
                                 entry.target.classList.add('active');
                                 
-                                // Mettre à jour les indicateurs
                                 if (dots) {
                                     const index = Array.from(cards).indexOf(entry.target);
                                     dots.forEach((dot, i) => {

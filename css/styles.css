@@ -34,7 +34,7 @@ header .lead {
 }
 
 .card:hover, .card:focus, .card.active {
-    border-color: #4EBAEC;
+    border-color: rgba(78, 186, 236, 0.5);
     transform: translateY(-5px);
 }
 
@@ -267,7 +267,6 @@ header .lead {
     .row {
         flex-wrap: nowrap;
         overflow-x: auto;
-        padding: 1rem 0;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none; /* Firefox */
@@ -277,6 +276,7 @@ header .lead {
         gap: 0.5rem;
         margin: 0;
         padding: 1rem 0.5rem;
+        touch-action: pan-x pan-y;
     }
 
     .row::-webkit-scrollbar {
@@ -375,28 +375,43 @@ header .lead {
 
     /* Application de l'effet uniquement au tap */
     .card:active {
-        border-color: #4EBAEC !important;
+        border-color: rgba(78, 186, 236, 0.5) !important;
         transform: translateY(-5px) !important;
     }
 
     /* Style des features pour mobile */
     .feature-section {
         margin-bottom: 1.5rem;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
-    .feature-section h4 {
-        font-size: 1rem;
-        font-family: 'Poppins', sans-serif;
-        font-weight: 500;
+    .card {
+        min-height: auto;
+        max-height: none;
+        overflow-y: auto;
+        touch-action: pan-y;
+        -webkit-overflow-scrolling: touch;
     }
 
-    .feature-section ul {
-        padding-left: 1rem;
+    .card-body {
+        padding: 1.5rem;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        height: auto;
+        min-height: 100%;
     }
 
-    /* Section incluse plus compacte */
-    .included-section .card {
-        margin: 1rem 0;
+    /* Permettre le scroll vertical tout en gardant le snap horizontal */
+    .col-md-3, .col-md-4, .col-md-6 {
+        min-width: 85vw;
+        padding: 0 0.5rem;
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+        flex: 0 0 85vw;
+        height: auto;
+        max-height: none;
+        overflow-y: auto;
     }
 
     .included-features li {
