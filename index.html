@@ -273,6 +273,54 @@
                     : null;
                 
                 if (window.innerWidth <= 768) {
+                    let isDown = false;
+                    let startX;
+                    let scrollLeft;
+                    let velocity = 0;
+                    let rafId = null;
+                    
+                    // Gestion du défilement avec inertie
+                    function momentumScroll() {
+                        if (Math.abs(velocity) > 0.1) {
+                            row.scrollLeft += velocity;
+                            velocity *= 0.95; // Décélération
+                            rafId = requestAnimationFrame(momentumScroll);
+                        }
+                    }
+
+                    row.addEventListener('touchstart', (e) => {
+                        isDown = true;
+                        row.classList.add('active');
+                        startX = e.touches[0].pageX - row.offsetLeft;
+                        scrollLeft = row.scrollLeft;
+                        cancelAnimationFrame(rafId);
+                    });
+
+                    row.addEventListener('touchend', () => {
+                        isDown = false;
+                        row.classList.remove('active');
+                        
+                        // Snap to closest card
+                        const cardWidth = row.querySelector('.card').offsetWidth;
+                        const scrollPosition = row.scrollLeft;
+                        const targetPosition = Math.round(scrollPosition / cardWidth) * cardWidth;
+                        
+                        row.scrollTo({
+                            left: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    });
+
+                    row.addEventListener('touchmove', (e) => {
+                        if (!isDown) return;
+                        e.preventDefault();
+                        const x = e.touches[0].pageX - row.offsetLeft;
+                        const walk = (x - startX) * 2;
+                        const prevScroll = row.scrollLeft;
+                        row.scrollLeft = scrollLeft - walk;
+                        velocity = row.scrollLeft - prevScroll;
+                    });
+
                     // Observer pour les cartes
                     const observer = new IntersectionObserver((entries) => {
                         entries.forEach(entry => {
@@ -291,26 +339,11 @@
                             }
                         });
                     }, {
-                        threshold: 0.5,
-                        root: row
+                        threshold: 0.7,
+                        root: null
                     });
 
                     cards.forEach(card => observer.observe(card));
-
-                    // Animation fluide au touch
-                    let startX, scrollLeft;
-                    
-                    row.addEventListener('touchstart', (e) => {
-                        startX = e.touches[0].pageX - row.offsetLeft;
-                        scrollLeft = row.scrollLeft;
-                    });
-
-                    row.addEventListener('touchmove', (e) => {
-                        if (!startX) return;
-                        const x = e.touches[0].pageX - row.offsetLeft;
-                        const walk = (x - startX) * 2;
-                        row.scrollLeft = scrollLeft - walk;
-                    });
                 }
             });
         });

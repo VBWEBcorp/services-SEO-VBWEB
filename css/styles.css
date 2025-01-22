@@ -272,16 +272,45 @@ header .lead {
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none; /* Firefox */
         -ms-overflow-style: none; /* IE/Edge */
+        scroll-behavior: smooth;
+        -webkit-scroll-snap-type: x mandatory;
+        gap: 0.5rem;
+        margin: 0;
+        padding: 1rem 0.5rem;
     }
 
     .row::-webkit-scrollbar {
         display: none; /* Chrome/Safari */
     }
 
-    .col-md-4, .col-md-6 {
+    .col-md-3, .col-md-4, .col-md-6 {
         min-width: 85vw;
         padding: 0 0.5rem;
         scroll-snap-align: center;
+        scroll-snap-stop: always;
+        flex: 0 0 85vw;
+        transition: transform 0.3s ease;
+    }
+
+    /* Ajout d'un effet de momentum pour le scroll */
+    .row {
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+        position: relative;
+        cursor: grab;
+    }
+
+    .row:active {
+        cursor: grabbing;
+    }
+
+    /* Optimisation des performances */
+    .card {
+        will-change: transform;
+        transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        perspective: 1000px;
     }
 
     .col-md-3 {

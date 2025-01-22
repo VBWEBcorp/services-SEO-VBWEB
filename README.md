@@ -18,4 +18,4 @@ Site web présentant les services SEO de VBWEB, avec différents forfaits adapt�
 
 ## Déploiement
 
-Le site est déployé via GitHub Pages et accessible à l'adresse : [URL à venir]
+Le site est déployé via GitHub Pages et accessible à l'adresse : [https://vbwebcorp.github.io/services-SEO-VBWEB/](https://vbwebcorp.github.io/services-SEO-VBWEB/)
