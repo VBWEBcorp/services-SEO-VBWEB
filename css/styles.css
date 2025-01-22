@@ -256,14 +256,15 @@ header .lead {
     }
 
     .container {
-        padding: 1rem;
+        padding: 0.5rem;
         width: 100%;
         max-width: 100%;
         overflow-x: hidden;
     }
 
     h1 {
-        font-size: 1.8rem;
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
         padding: 0 1rem;
         font-family: 'Poppins', sans-serif;
         font-weight: 700;
@@ -433,7 +434,7 @@ header .lead {
 @media (max-width: 768px) {
     /* Container principal */
     .container {
-        padding: 1rem;
+        padding: 0.5rem;
         width: 100%;
         max-width: 100%;
     }
@@ -476,7 +477,7 @@ header .lead {
 
     /* Espacement vertical optimisé */
     section {
-        padding: 2rem 0;
+        padding: 1rem 0;
         margin: 0;
     }
 
@@ -521,10 +522,10 @@ header .lead {
 .card:nth-child(3) { animation-delay: 0.3s; }
 
 h1 {
-    margin-bottom: 3rem;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
     font-weight: 500;
     font-family: 'Poppins', sans-serif;
-    font-size: 2.5rem;
 }
 
 .row {
