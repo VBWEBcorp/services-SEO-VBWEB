@@ -264,85 +264,72 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            if ('ontouchstart' in window) {
+                document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+                window.addEventListener('resize', () => {
+                    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+                });
+            }
+
             const rows = document.querySelectorAll('.row');
             
-            rows.forEach((row, rowIndex) => {
+            rows.forEach(row => {
                 const cards = row.querySelectorAll('.card');
-                const dots = row.nextElementSibling?.classList.contains('scroll-indicator') 
-                    ? row.nextElementSibling.querySelectorAll('.scroll-dot') 
-                    : null;
-                
-                if (window.innerWidth <= 768) {
-                    let isDown = false;
-                    let startX;
-                    let scrollLeft;
-                    let startY;
-                    let scrollTop;
-                    let initialTouchX;
-                    let initialTouchY;
-                    
-                    row.addEventListener('touchstart', (e) => {
-                        isDown = true;
-                        initialTouchX = e.touches[0].clientX;
-                        initialTouchY = e.touches[0].clientY;
-                        startX = e.touches[0].pageX - row.offsetLeft;
-                        scrollLeft = row.scrollLeft;
-                    });
+                let startX, startY, startTime;
+                let initialScroll;
+                let isScrolling = false;
 
-                    row.addEventListener('touchend', () => {
-                        isDown = false;
-                        const cardWidth = row.querySelector('.card').offsetWidth;
-                        const scrollPosition = row.scrollLeft;
-                        const targetPosition = Math.round(scrollPosition / cardWidth) * cardWidth;
-                        
-                        row.scrollTo({
-                            left: targetPosition,
-                            behavior: 'smooth'
-                        });
-                    });
-
-                    row.addEventListener('touchmove', (e) => {
-                        if (!isDown) return;
-                        
-                        const currentX = e.touches[0].clientX;
-                        const currentY = e.touches[0].clientY;
-                        const deltaX = initialTouchX - currentX;
-                        const deltaY = initialTouchY - currentY;
-                        
-                        // Si le mouvement est plus vertical qu'horizontal
-                        if (Math.abs(deltaY) > Math.abs(deltaX)) {
-                            e.stopPropagation(); // Permettre le scroll vertical
-                            return;
-                        }
-                        
-                        e.preventDefault(); // Sinon, gérer le scroll horizontal
-                        const x = e.touches[0].pageX - row.offsetLeft;
-                        const walk = (x - startX) * 1.5;
-                        row.scrollLeft = scrollLeft - walk;
-                    });
-
-                    // Observer pour les cartes
-                    const observer = new IntersectionObserver((entries) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                cards.forEach(c => c.classList.remove('active'));
-                                entry.target.classList.add('active');
-                                
-                                if (dots) {
-                                    const index = Array.from(cards).indexOf(entry.target);
-                                    dots.forEach((dot, i) => {
-                                        dot.classList.toggle('active', i === index);
-                                    });
-                                }
-                            }
-                        });
-                    }, {
-                        threshold: 0.7,
-                        root: null
-                    });
-
-                    cards.forEach(card => observer.observe(card));
+                function handleStart(e) {
+                    startX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+                    startY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+                    startTime = Date.now();
+                    initialScroll = row.scrollLeft;
+                    isScrolling = true;
                 }
+
+                function handleMove(e) {
+                    if (!isScrolling) return;
+
+                    const x = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+                    const y = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+                    const deltaX = startX - x;
+                    const deltaY = startY - y;
+
+                    // Si le défilement est plus horizontal que vertical
+                    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                        e.preventDefault();
+                        row.scrollLeft = initialScroll + deltaX;
+                    }
+                }
+
+                function handleEnd(e) {
+                    if (!isScrolling) return;
+                    isScrolling = false;
+
+                    const endTime = Date.now();
+                    const timeElapsed = endTime - startTime;
+                    const cardWidth = cards[0].offsetWidth;
+                    
+                    // Calcul de la position finale avec effet d'inertie
+                    const velocity = Math.abs(row.scrollLeft - initialScroll) / timeElapsed;
+                    const targetPosition = Math.round(row.scrollLeft / cardWidth) * cardWidth;
+                    
+                    row.scrollTo({
+                        left: targetPosition,
+                        behavior: velocity < 0.5 ? 'smooth' : 'auto'
+                    });
+                }
+
+                // Gestion tactile
+                row.addEventListener('touchstart', handleStart, { passive: false });
+                row.addEventListener('touchmove', handleMove, { passive: false });
+                row.addEventListener('touchend', handleEnd);
+
+                // Gestion souris
+                row.addEventListener('mousedown', handleStart);
+                row.addEventListener('mousemove', handleMove);
+                row.addEventListener('mouseup', handleEnd);
+                row.addEventListener('mouseleave', handleEnd);
             });
         });
     </script>
