@@ -257,7 +257,7 @@ header .lead {
 
     .container {
         padding: 1rem;
-        overflow-x: hidden;
+        width: 100%;
         max-width: 100%;
     }
 
@@ -270,30 +270,37 @@ header .lead {
 
     /* Scroll horizontal pour les forfaits */
     .row {
+        display: flex;
         flex-wrap: nowrap;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
+        overflow-x: scroll;
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* IE/Edge */
-        scroll-behavior: smooth;
-        -webkit-scroll-snap-type: x mandatory;
-        gap: 0.5rem;
+        scroll-snap-type: x mandatory;
+        padding: 1rem 0;
+        gap: 1rem;
         margin: 0;
-        padding: 1rem 0.5rem;
+        width: 100%;
     }
 
     .row::-webkit-scrollbar {
-        display: none; /* Chrome/Safari */
+        display: none;
     }
 
     .col-md-3, .col-md-4, .col-md-6 {
-        min-width: 85vw;
+        flex: 0 0 90%;
+        width: 90%;
+        min-width: 90%;
         padding: 0 0.5rem;
         scroll-snap-align: center;
-        scroll-snap-stop: always;
-        flex: 0 0 85vw;
-        transition: transform 0.3s ease;
+    }
+
+    .card {
+        margin: 0;
+        height: 100%;
+        border: 2px solid rgba(78, 186, 236, 0.15);
+    }
+
+    .card:active {
+        border-color: rgba(78, 186, 236, 0.5);
     }
 
     /* Ajout d'un effet de momentum pour le scroll */
@@ -424,24 +431,21 @@ header .lead {
     /* Container principal */
     .container {
         padding: 1rem;
-        overflow-x: hidden;
+        width: 100%;
         max-width: 100%;
     }
 
     /* Optimisation du scroll horizontal des cartes */
     .row {
+        display: flex;
         flex-wrap: nowrap;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
+        overflow-x: scroll;
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+        padding: 1rem 0;
         gap: 1rem;
-        padding: 1rem 0.5rem;
-        margin: 0 -0.5rem;
-        position: relative;
-        touch-action: pan-x pan-y;
+        margin: 0;
+        width: 100%;
     }
 
     .row::-webkit-scrollbar {
@@ -450,18 +454,21 @@ header .lead {
 
     /* Cartes */
     .col-md-3, .col-md-4, .col-md-6 {
-        min-width: 85vw;
-        padding: 0;
+        flex: 0 0 90%;
+        width: 90%;
+        min-width: 90%;
+        padding: 0 0.5rem;
         scroll-snap-align: center;
-        scroll-snap-stop: always;
-        flex: 0 0 85vw;
     }
 
     .card {
-        margin: 0.5rem;
-        touch-action: manipulation;
-        user-select: none;
-        -webkit-user-select: none;
+        margin: 0;
+        height: 100%;
+        border: 2px solid rgba(78, 186, 236, 0.15);
+    }
+
+    .card:active {
+        border-color: rgba(78, 186, 236, 0.5);
     }
 
     /* Espacement vertical optimisé */

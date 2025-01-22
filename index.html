@@ -264,73 +264,13 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Fix pour la hauteur mobile
             if ('ontouchstart' in window) {
                 document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
                 window.addEventListener('resize', () => {
                     document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
                 });
             }
-
-            const rows = document.querySelectorAll('.row');
-            
-            rows.forEach(row => {
-                const cards = row.querySelectorAll('.card');
-                let startX, startY, startTime;
-                let initialScroll;
-                let isScrolling = false;
-
-                function handleStart(e) {
-                    startX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
-                    startY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
-                    startTime = Date.now();
-                    initialScroll = row.scrollLeft;
-                    isScrolling = true;
-                }
-
-                function handleMove(e) {
-                    if (!isScrolling) return;
-
-                    const x = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
-                    const y = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
-                    const deltaX = startX - x;
-                    const deltaY = startY - y;
-
-                    // Si le défilement est plus horizontal que vertical
-                    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-                        e.preventDefault();
-                        row.scrollLeft = initialScroll + deltaX;
-                    }
-                }
-
-                function handleEnd(e) {
-                    if (!isScrolling) return;
-                    isScrolling = false;
-
-                    const endTime = Date.now();
-                    const timeElapsed = endTime - startTime;
-                    const cardWidth = cards[0].offsetWidth;
-                    
-                    // Calcul de la position finale avec effet d'inertie
-                    const velocity = Math.abs(row.scrollLeft - initialScroll) / timeElapsed;
-                    const targetPosition = Math.round(row.scrollLeft / cardWidth) * cardWidth;
-                    
-                    row.scrollTo({
-                        left: targetPosition,
-                        behavior: velocity < 0.5 ? 'smooth' : 'auto'
-                    });
-                }
-
-                // Gestion tactile
-                row.addEventListener('touchstart', handleStart, { passive: false });
-                row.addEventListener('touchmove', handleMove, { passive: false });
-                row.addEventListener('touchend', handleEnd);
-
-                // Gestion souris
-                row.addEventListener('mousedown', handleStart);
-                row.addEventListener('mousemove', handleMove);
-                row.addEventListener('mouseup', handleEnd);
-                row.addEventListener('mouseleave', handleEnd);
-            });
         });
     </script>
 </body>
