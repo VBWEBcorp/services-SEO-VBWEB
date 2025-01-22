@@ -264,7 +264,7 @@ header .lead {
 
     h1 {
         font-size: 2rem;
-        margin-bottom: 1.5rem;
+        margin-bottom: 0.5rem;
         padding: 0 1rem;
         font-family: 'Poppins', sans-serif;
         font-weight: 700;
@@ -477,17 +477,14 @@ header .lead {
 
     /* Espacement vertical optimisé */
     section {
-        padding: 1rem 0;
+        padding: 0.5rem 0;
         margin: 0;
     }
 
-    /* Amélioration de la performance de défilement */
-    * {
-        -webkit-tap-highlight-color: transparent;
-    }
-
-    .feature-section {
-        margin: 1rem 0;
+    .row {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        margin-top: 0;
     }
 }
 
@@ -523,7 +520,7 @@ header .lead {
 
 h1 {
     font-size: 2.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     font-weight: 500;
     font-family: 'Poppins', sans-serif;
 }
